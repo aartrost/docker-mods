@@ -1,11 +1,8 @@
 #!/usr/bin/with-contenv bash
 
-# get nat-pmp gateway IP address using the NAT_PMP_GATEWAY env variable or 
-# use the system nameserver as fallback
-if [ -z "${NAT_PMP_GATEWAY}" ]; then
+if [[ -z "${GATEWAY}" ]]; then
+	# fall back to system nameserver if GATEWAY env variable is not set
 	GATEWAY=$(grep nameserver /etc/resolv.conf | awk '{print $2}')
-else 
-	GATEWAY=${NAT_PMP_GATEWAY}
 fi
 
 TRANSMISSION_USERNAME=$USER TRANSMISSION_PASSWORD=$PASS /transmission-nat-pmp -gateway $GATEWAY
